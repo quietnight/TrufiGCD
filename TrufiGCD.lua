@@ -159,6 +159,7 @@ function TrufiGCDAddonLoaded(self, event, ...)
 				TrGCDNullOptions = true
 			end
 		end
+		-- load saved settings
 		if (TrGCDNullOptions) then TrGCDRestoreDefaultSettings()
 		else
 			for i=1,12 do
@@ -174,10 +175,12 @@ function TrufiGCDAddonLoaded(self, event, ...)
 				TrGCDQueueOpt[i].speed = TrufiGCDChSave["TrGCDQueueFrame"][i]["speed"]
 			end
 		end
+
 		-- Checking for an empty Black List
 		if (TrufiGCDChSave["TrGCDBL"] == nil) then TrGCDBLDefaultSetting()
 		else TrGCDBL = TrufiGCDChSave["TrGCDBL"]
 		end
+
 		-- Checking for empty EnableIn
 		-- NEW MODE, TrufiGCDChSave["EnableIn"] - ["PvE"], ["Arena"], ["Bg"], ["World"] = true or false
 		TrGCDNullOptions = false
@@ -464,11 +467,13 @@ function TrufiGCDAddonLoaded(self, event, ...)
 		TrGCDGUI.BL.ButtonRes = AddButton(TrGCDGUI.BL,"TOPRIGHT",-30,-30,22,100,"Default",10,"Restore default blacklist")
 		TrGCDGUI.BL.ButtonRes:SetScript("OnClick", function () TrGCDBLDefaultSetting() TrGCDLoadBlackList() end)
 		InterfaceOptions_AddCategory(TrGCDGUI.BL)
+
 		-- Creating event enter arena/bg event frame
 		TrGCDEnterEventFrame = CreateFrame("Frame", nil, UIParent)
 		TrGCDEnterEventFrame:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND")
 		TrGCDEnterEventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 		TrGCDEnterEventFrame:SetScript("OnEvent", TrGCDEnterEventHandler) --check addon whether enable or not
+
 		-- Creating event spell frame
 		TrGCDEventFrame = CreateFrame("Frame", nil, UIParent)
 		TrGCDEventFrame:RegisterEvent("UNIT_SPELLCAST_START") -- Fired when a unit begins casting a non-instant cast spell, including party/raid members or the player.
